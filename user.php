@@ -1,4 +1,6 @@
 <?php
+require_once('Auth.php');
+
 class User {
 
   use Auth;
@@ -8,11 +10,16 @@ class User {
   private $name;
   private $lastname;
   private $age;
+  private $carta_credito;
 
-  public function __construct($username, $password, $age){
+  private $carrello = [];
+
+  public function __construct($name, $lastname, $age, $username, $password){
+    $this->name = $name;
+    $this->lastname = $lastname;
+    $this->age = $age;
     $this->username = $username;
     $this->password = $password;
-    $this->age = $age;
   }
 
   public function getName()
@@ -30,9 +37,9 @@ class User {
     return $this->lastname;
   }
 
-  public function setCognome($lastname)
+  public function setLastname($lastname)
   {
-    $this->cognome = $lastname;
+    $this->lastname = $lastname;
   }
 
   public function getAge()
@@ -40,67 +47,49 @@ class User {
     return $this->age;
   }
 
-  public function setEta($age)
+  public function setAge($age)
   {
-    $this->eta = $age;
+    $this->age = $age;
+  }
+
+  public function setCartaDiCredito($carta_credito)
+  {
+    $this->carta_credito = $carta_credito;
+  }
+
+  public function aggiungiAlCarrello($prodotto, $quantity)
+  {
+    $this->carrello[] = [
+      'product' => $prodotto,
+      'quantity' => $quantity,
+      ];
+  }
+
+  public function getCarrello()
+  {
+    return $this->carrello;
   }
 }
 
-trait Auth
-{
-  private $username;
-  private $password;
 
-  public function login($username, $password)
-  {
-    if ($username == $this->username && $password == $this->password) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
-  public function setUsername($username = '')
-  {
-    if (strlen($username) <= 2) {
-      throw new Exception("Username must be more than 2 letters");
-    }
-    $this->username = $username;
-  }
-
-  public function setPassword($password = '')
-  {
-    if ($password == '') {
-      throw new Exception("Password must be not empty string");
-    } else if (strlen($password) <= '6'){
-      throw new Exception("Password must be more than 6 letters");
-    }
-    $this->password = $password;
-  }
-
-  public static function authWithPassword()
-  {
-    return true;
-  }
-}
-
-trait Premium
-{
-  private $premium_username;
-  private $premium_password;
-
-  public function premiumLogin($premium_username, $premium_password)
-  {
-    if ($premium_password == $this->username && $premium_password == $this->password) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+// trait Premium
+// {
+//   private $premium_username;
+//   private $premium_password;
+//
+//   public function premiumLogin($premium_username, $premium_password)
+//   {
+//     if ($premium_password == $this->username && $premium_password == $this->password) {
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   }
 
   // public static function authWithPassword()
   // {
   //   return true;
   // }
-}
+
 ?>

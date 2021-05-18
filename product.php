@@ -9,6 +9,7 @@ class Product {
       $this->product_name = $product_name;
       $this->price = $price;
       $this->age = $age;
+      $this->quantity = $quantity;
     }
 
     public function getProductName()
